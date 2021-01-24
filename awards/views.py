@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.http  import HttpResponse,Http404
+from django.http  import HttpResponse,Http404,HttpResponseRedirect
 import datetime as dt
 from .models import Projects,Profile
 # Create your views here.
@@ -63,3 +63,10 @@ def search_results(request):
     else:
         message = "You haven't searched for any term"
         return render(request, 'all-awards/search.html',{"message":message})
+    
+def projects(request,projects_id):
+    try: 
+        projects = Projects.objects.get(id = projects_id)
+    except DoesNotExist:
+        raise Http404()
+    return render(request,"all-awards/projects.html", {"projects":projects})    
