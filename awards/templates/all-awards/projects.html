@@ -9,11 +9,14 @@
    </div>
 
    <div class="row">
-     <h1 class="text-center">{{projects.title}}</h1>
+     <h1 class="text-center">{{project.title}}</h1>
    </div>
 
    <div class="row">
-     <p>{{projects.post}}</p>
+     {% autoescape on %}
+     {{projects.post| safe}}
+    {% endautoescape %}
+
    </div>
 
    <div class="row">

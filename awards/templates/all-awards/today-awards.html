@@ -1,29 +1,35 @@
 {%extends 'all-awards/base.html'%}
+{% load bootstrap3 %}
 {% block content %} 
 {{ block.super}}
-
+{% load static %}
 <div class="container">
 
-  <!-- Looping through awards   -->
+  <!-- Looping through news   -->
   {% for awards_item in awards %}
 
   <div class="row">
-    <!-- displaying awards projects -->
+    <!-- displaying News articles -->
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
       <h2 class="text-center"> {{ awards_item.title }} </h2>
     </div>
-
-  </div>
-    <!--Display news project images  -->
+    <!--Display news Article images  -->
+    <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <img src="{{awards_item.project_image_.url}}" class="img-responsive" alt="Image">
+        <img src="{{awards_item.project_image.url}}" class="img-responsive w-100 btn btn-outline-info" alt="image" width="50%" height="40%">
       </div>
-  
+    </div>
+  </div>
+  <!-- Looping through news end   -->
+<div class="container-fluid">
+</div>
   {% empty %}
   <div class="row">
-    <h2 class="text-center">There No awwards</h2>
+    <h2 class="text-center">There No Awwards</h2>
   </div>
   {% endfor %}
-
 </div>
+{% endblock %}
+{% block scripts %} {{block.super}}
+  <script type="text/javascript" src="{%static 'js/newsletter.js'%}"></script>
 {% endblock %}

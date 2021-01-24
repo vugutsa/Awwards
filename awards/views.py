@@ -2,6 +2,9 @@ from django.shortcuts import render,redirect
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 import datetime as dt
 from .models import Projects,Profile
+from .forms import NewProjectsForm,ProfileForm
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 def welcome(request):
@@ -80,8 +83,23 @@ def new_projects(request):
             projects = form.save(commit=False)
             projects.title = current_user
             projects.save()
-        return redirect('AwardsToday')
+        return redirect('awardsToday')
 
     else:
         form = NewProjectsForm()
     return render(request, 'new_projects.html', {"form": form})
+
+@login_required(login_url='/accounts/login/')  
+def new_profile(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = current_user
+            profile.save()
+        return redirect('awardsToday')
+
+    else:
+        form = ProfileForm()
+    return render(request, 'profile.html', {"form": form})
