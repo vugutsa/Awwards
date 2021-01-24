@@ -69,4 +69,19 @@ def projects(request,projects_id):
         projects = Projects.objects.get(id = projects_id)
     except DoesNotExist:
         raise Http404()
-    return render(request,"all-awards/projects.html", {"projects":projects})    
+    return render(request,"all-awards/projects.html", {"projects":projects})  
+  
+@login_required(login_url='/accounts/login/')
+def new_projects(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = NewProjectsForm(request.POST, request.FILES)
+        if form.is_valid():
+            projects = form.save(commit=False)
+            projects.title = current_user
+            projects.save()
+        return redirect('AwardsToday')
+
+    else:
+        form = NewProjectsForm()
+    return render(request, 'new_projects.html', {"form": form})
