@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http  import HttpResponse,Http404
 import datetime as dt
-
+from .models import Projects,Profile
 # Create your views here.
 
 def welcome(request):
@@ -19,7 +19,7 @@ def awards_day(request):
             </body>
         </html>
             '''
-    return render(request, 'all-awards/today-awards.html', {"date": date,})
+    return render(request, 'all-awards/today-awards.html', {"date": date})
 def convert_dates(dates):
     
     # Function that gets the weekday number for the date.
@@ -47,5 +47,19 @@ def past_days_awards(request,past_date):
         </html>
             '''
     if date == dt.date.today():
-        return redirect(awards_day)     
+        return redirect(awards_day) 
+  
     return render(request, 'all-awards/past-awards.html', {"date": date})
+
+def search_results(request):
+    
+    if 'article' in request.GET and request.GET["projects"]:
+        search_term = request.GET.get("projects")
+        searched_projects = Projects.search_by_title(search_term)
+        message = f"{search_term}"
+
+        return render(request, 'all-awards/search.html',{"message":message,"projects": searched_projects})
+
+    else:
+        message = "You haven't searched for any term"
+        return render(request, 'all-awards/search.html',{"message":message})
