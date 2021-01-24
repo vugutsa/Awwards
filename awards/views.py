@@ -5,6 +5,10 @@ from .models import Projects,Profile
 from .forms import NewProjectsForm,ProfileForm
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import  AwardsMerch
+from .serializer import MerchSerializer
 
 # Create your views here.
 
@@ -104,3 +108,9 @@ def new_profile(request):
     else:
         form = ProfileForm()
     return render(request, 'profile.html', {"form": form})
+
+class MerchList(APIView):
+    def get(self, request, format=None):
+        all_merch = MoringaMerch.objects.all()
+        serializers = MerchSerializer(all_merch, many=True)
+        return Response(serializers.data)
