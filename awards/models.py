@@ -45,3 +45,11 @@ class Profile(models.Model):
         return photo
     def __str__(self):
         return self.name
+    
+class AwardsMerch(models.Model):
+    name = models.CharField(max_length=40)
+    description = models.TextField()
+    bio = models.DecimalField(decimal_places=2, max_digits=20) 
+    profile_image = models.ImageField(upload_to = 'images/')
+    link = models.URLField()
+    
