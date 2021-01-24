@@ -22,5 +22,6 @@ urlpatterns = [
     path(r'accounts/', include('django_registration.backends.one_step.urls')),
     path(r'accounts/', include('django.contrib.auth.urls')),
     path("logout", views.logout_then_login, name= "logout"),
+    path(r'tinymce/', include('tinymce.urls')),
     path(r'',include('awards.urls'))
 ]
