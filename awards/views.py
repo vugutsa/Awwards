@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http  import HttpResponse,Http404
 import datetime as dt
 
@@ -19,7 +19,7 @@ def awards_day(request):
             </body>
         </html>
             '''
-    return HttpResponse(html)
+    return render(request, 'all-awards/today-awards.html', {"date": date,})
 def convert_dates(dates):
     
     # Function that gets the weekday number for the date.
@@ -46,4 +46,6 @@ def past_days_awards(request,past_date):
             </body>
         </html>
             '''
-    return HttpResponse(html)
+    if date == dt.date.today():
+        return redirect(awards_day)     
+    return render(request, 'all-awards/past-awards.html', {"date": date})
