@@ -18,6 +18,7 @@ def welcome(request):
 
 def awards_day(request):
     date = dt.date.today()
+    projects = Projects.objects.all()
     # FUNCTION TO CONVERT DATE OBJECT TO FIND EXACT DAY
     day = convert_dates(date)
 
@@ -26,9 +27,9 @@ def awards_day(request):
             <body>
                 <h1> {date.day}-{date.month}-{date.year}</h1>
             </body>
-        </html>
+        </html>   
             '''
-    return render(request, 'all-awards/today-awards.html', {"date": date})
+    return render(request, 'all-awards/today-awards.html', {"date": date,"projects":projects})
 def convert_dates(dates):
     
     # Function that gets the weekday number for the date.
@@ -62,9 +63,9 @@ def past_days_awards(request,past_date):
 
 def search_results(request):
     
-    if 'article' in request.GET and request.GET["projects"]:
+    if 'projects' in request.GET and request.GET["projects"]:
         search_term = request.GET.get("projects")
-        searched_projects = Projects.search_by_title(search_term)
+        searched_projects = Projects.search_by_project_title(search_term)
         message = f"{search_term}"
 
         return render(request, 'all-awards/search.html',{"message":message,"projects": searched_projects})
@@ -144,3 +145,8 @@ class MerchDescription(APIView):
             return Response(serializers.data)
         else:
             return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    def delete(self, request, pk, format=None):
+        merch = self.get_merch(pk)
+        merch.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)   

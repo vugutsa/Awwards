@@ -1,6 +1,6 @@
 {%extends 'all-awards/base.html'%}
-
- {% block content %}
+{% block content %}
+{% load bootstrap3 %}
 
  <div class="container">
 
@@ -9,13 +9,16 @@
    </div>
 
    <div class="row">
-     <h1 class="text-center">{{project.title}}</h1>
+     <h1 class="text-center">{{project.project_title}}</h1>
    </div>
-
    <div class="row">
-     {% autoescape on %}
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <img src="{{awards_item.project_image.url}}" class="img-responsive w-100 btn btn-outline-info" alt="image" width="50%" height="40%">
+      </div>
+   <div class="row">
+     <!-- {% autoescape on %}
      {{projects.post| safe}}
-    {% endautoescape %}
+    {% endautoescape %} -->
 
    </div>
 

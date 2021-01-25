@@ -2,34 +2,34 @@
 {% load bootstrap3 %}
 {% block content %} 
 {{ block.super}}
-{% load static %}
-<div class="container">
-
-  <!-- Looping through news   -->
-  {% for awards_item in awards %}
-
-  <div class="row">
-    <!-- displaying News articles -->
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-      <h2 class="text-center"> {{ awards_item.title }} </h2>
-    </div>
-    <!--Display news Article images  -->
-    <div class="row">
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <img src="{{awards_item.project_image.url}}" class="img-responsive w-100 btn btn-outline-info" alt="image" width="50%" height="40%">
-      </div>
-    </div>
-  </div>
-  <!-- Looping through news end   -->
-<div class="container-fluid">
-</div>
-  {% empty %}
-  <div class="row">
-    <h2 class="text-center">There No Awwards</h2>
-  </div>
-  {% endfor %}
-</div>
-{% endblock %}
-{% block scripts %} {{block.super}}
-  <script type="text/javascript" src="{%static 'js/newsletter.js'%}"></script>
+{%load static%}
+{% load ratings %}
+<!DOCTYPE html>
+<html>
+<title>Awards</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+<link rel="stylesheet" href="static 'css/styles.css'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+<body class="w3-light-grey w3-content" style="max-width:1600px">
+            {% for project in projects %}
+        <div class="w3-third w3-container w3-margin-bottom ">
+           <div class="row"> 
+                    <a href="{%url 'project'}"><img src="{{project.project_image.url}}" alt="image" width="100%" height="100%" class="w3-hover-opacity"title="Click to view more details"></a>
+                    <div class="w3-container w3-white w3-card">
+                        <p>Project Title: {{project.project_title}}</p>
+                        <p>Description: {{project.description}}</p>
+                        <button class="btn btn-inf"><a href="{{project.link}}" >View site</a></button>
+                        <p> User : {{project.user}}</p>
+                        <div class="w3-center "></div>
+                        <p>{% ratings project %} </p>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}            
+        <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+</body>
+</html>
 {% endblock %}
