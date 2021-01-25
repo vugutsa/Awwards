@@ -11,6 +11,8 @@ urlpatterns=[
     url(r'^new/projects$', views.new_projects, name='new-projects'),
     url(r'^new/profile$', views.new_profile, name='new-profile'),
     url(r'^api/merch/$', views.MerchList.as_view()),
+    url(r'api/merch/merch-id/(?P<pk>[0-9]+)/$',
+    views.MerchDescription.as_view()),
     url(r'^archives/(\d{4}-\d{2}-\d{2})/$',views.past_days_awards,name = 'pastAwards')    
 ]
 if settings.DEBUG:
