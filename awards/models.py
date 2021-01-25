@@ -8,7 +8,7 @@ class Projects(models.Model):
     description = models.CharField(max_length =200)
     link = models.URLField()
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
-    
+    pub_date = models.DateTimeField(auto_now_add=True)
     
     
     def save_projects(self):
@@ -18,8 +18,8 @@ class Projects(models.Model):
         self.delete()
            
     @classmethod
-    def search_by_title(cls,search_term):
-        projects = cls.objects.filter(name__icontains=search_term)
+    def search_by_project_title(cls,search_term):
+        projects = cls.objects.filter(project_title__icontains=search_term)
         return projects
      
     @classmethod
@@ -61,7 +61,7 @@ class Profile(models.Model):
         news = cls.objects.filter(title__icontains=search_term)
         return photo
     def __str__(self):
-        return self.name
+        return self.user_bio
     
 class AwardsMerch(models.Model):
     name = models.CharField(max_length=40)

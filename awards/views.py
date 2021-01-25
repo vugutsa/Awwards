@@ -62,10 +62,13 @@ def past_days_awards(request,past_date):
     return render(request, 'all-awards/past-awards.html', {"date": date})
 
 def search_results(request):
-    
-    if 'projects' in request.GET and request.GET["projects"]:
-        search_term = request.GET.get("projects")
+    if 'project' in request.GET and request.GET["project"]:
+        search_term = request.GET.get("project")
+        print(search_term)
         searched_projects = Projects.search_by_project_title(search_term)
+        print("rrrrrrrrrrrrr")
+        print(searched_projects)
+        print("iiiiiiiiiiiiiiiiiiiiii")
         message = f"{search_term}"
 
         return render(request, 'all-awards/search.html',{"message":message,"projects": searched_projects})
@@ -73,6 +76,7 @@ def search_results(request):
     else:
         message = "You haven't searched for any term"
         return render(request, 'all-awards/search.html',{"message":message})
+    
     
 def projects(request,projects_id):
     try: 
@@ -99,17 +103,17 @@ def new_projects(request):
 @login_required(login_url='/accounts/login/')  
 def new_profile(request):
     current_user = request.user
+    profile = Profile.objects.filter(user=current_user).first()
+    
+    form = ProfileForm(request.POST, request.FILES)
     if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES)
+       
         if form.is_valid():
-            profile = form.save(commit=False)
+            profile = form.save(commit=False)  
             profile.user = current_user
             profile.save()
-        return redirect('awardsToday')
-
-    else:
-        form = ProfileForm()
-    return render(request, 'profile.html', {"form": form})
+            
+    return render(request, 'profile.html', {"form": form, "profile": profile})
 
 class MerchList(APIView):
     def get(self, request, format=None):

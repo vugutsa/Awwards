@@ -7,7 +7,7 @@
     <title>Profile</title>
     {{form.media}}
     {% block styles %} {% bootstrap_css %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> {% endblock %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">{% endblock %}
 </head>
 <body>
     {% include "navbar.html" %}
@@ -15,6 +15,12 @@
         <hr>
         <div class="row">
             <div class="col-md-3">
+                <h3>Profile</h3>
+              
+                <img src="{{profile.profile_image.url}}"class="card-img-top"alt="{{profile.user}}"width="40%" height="40%"/>
+                <p>{{profile.user_bio}} </p>
+                <br>
+              
             </div>
             <div class="col-md-6">
                 <form action="{%url 'new-profile'%}" method="post" enctype="multipart/form-data">
